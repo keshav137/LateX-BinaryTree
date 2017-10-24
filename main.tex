@@ -1,0 +1,132 @@
+\documentclass[landscape]{article}
+\def\xcolorversion{2.00}
+\def\xkeyvalversion{1.8}
+
+\usepackage[version=0.96]{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,mindmap,trees}
+\usepackage[latin1]{inputenc}
+
+\title{HW2 LING 490}
+\author{Keshav Malhotra}
+
+\begin{document}
+\maketitle
+
+\section{TikZ and PGF Chapter 5}
+$A Petri-Net for Hagen$\\
+\begin{tikzpicture}[node distance=1.3cm,>=stealth',bend angle=45,auto]
+
+  \tikzstyle{place}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+  \tikzstyle{red place}=[place,draw=red!75,fill=red!20]
+  \tikzstyle{transition}=[rectangle,thick,draw=black!75,
+  			  fill=black!20,minimum size=4mm]
+
+  \tikzstyle{every label}=[red]
+
+  \begin{scope}
+    % First net
+    \node [place,tokens=1] (w1)                                    {};
+    \node [place] (c1) [below of=w1]                      {};
+    \node [place] (s)  [below of=c1,label=above:$s\le 3$] {};
+    \node [place] (c2) [below of=s]                       {};
+    \node [place,tokens=1] (w2) [below of=c2]                      {};
+
+    \node [transition] (e1) [left of=c1] {}
+      edge [pre,bend left]                  (w1)
+      edge [post,bend right]                (s)
+      edge [post]                           (c1);
+
+    \node [transition] (e2) [left of=c2] {}
+      edge [pre,bend right]                 (w2)
+      edge [post,bend left]                 (s)
+      edge [post]                           (c2);
+
+    \node [transition] (l1) [right of=c1] {}
+      edge [pre]                            (c1)
+      edge [pre,bend left]                  (s)
+      edge [post,bend right] node[swap] {2} (w1);
+
+    \node [transition] (l2) [right of=c2] {}
+      edge [pre]                            (c2)
+      edge [pre,bend right]                 (s)
+      edge [post,bend left]  node {2}       (w2);
+  \end{scope}
+
+  \begin{scope}[xshift=6cm]
+    % Second net
+    \node [place,tokens=1]
+                      (w1')                                                {};
+    \node [place]     (c1') [below of=w1']                                 {};
+    \node [red place] (s1') [below of=c1',xshift=-5mm,label=left:$s$]      {};
+    \node [red place,tokens=3]
+                      (s2') [below of=c1',xshift=5mm,label=right:$\bar s$] {};
+    \node [place]     (c2') [below of=s1',xshift=5mm]                      {};
+    \node [place,tokens=1]
+                      (w2') [below of=c2']                                 {};
+
+    \node [transition] (e1') [left of=c1'] {}
+      edge [pre,bend left]                  (w1')
+      edge [post]                           (s1')
+      edge [pre]                            (s2')
+      edge [post]                           (c1');
+
+    \node [transition] (e2') [left of=c2'] {}
+      edge [pre,bend right]                 (w2')
+      edge [post]                           (s1')
+      edge [pre]                            (s2')
+      edge [post]                           (c2');
+
+    \node [transition] (l1') [right of=c1'] {}
+      edge [pre]                            (c1')
+      edge [pre]                            (s1')
+      edge [post]                           (s2')
+      edge [post,bend right] node[swap] {2} (w1');
+
+    \node [transition] (l2') [right of=c2'] {}
+      edge [pre]                            (c2')
+      edge [pre]                            (s1')
+      edge [post]                           (s2')
+      edge [post,bend left]  node {2}       (w2');
+  \end{scope}
+
+
+  \begin{pgfonlayer}{background}
+    \filldraw [line width=4mm,join=round,black!10]
+      (w1.north  -| l1.east)  rectangle (w2.south  -| e1.west)
+      (w1'.north -| l1'.east) rectangle (w2'.south -| e1'.west);
+  \end{pgfonlayer}
+\end{tikzpicture}
+
+\section{Concept Map for different fields in Physics and how they relate}
+\begin{tikzpicture}
+  \path[mindmap,concept color=black,text=white]
+    node[concept] {Classical Mechanics}
+    [clockwise from=0]
+    child[concept color=green!50!black] {
+      node[concept] {Quantum Mechanics}
+      child { node[concept] {Quantum Electrodynamics} }
+      child { node[concept] {Condensed Matter Physics } }
+    }  
+    child[concept color=red] { node[concept] {Electricity and Magnetism}
+      child { node[concept] {Optics and Lasers} }
+      child { node[concept] {Plasma Physics} }
+  	}
+    child[concept color=blue] { node[concept] {General Relativity}
+      child { node[concept] {Astrophysics} }
+      child { node[concept] {Plasma Physics} }
+    }
+    child[concept color=orange] { node[concept] {Thermodynamics}
+    }
+    child[concept color=purple] { node[concept] {Special Relativity}
+      child { node[concept] {High Energy(or Particle Physics} }
+    };\\
+\end{tikzpicture}
+
+I chose to explore the graph feature in latex and drew a concept map using the mindmap library in TikZ. The concept map shows the different topics in Physics and how they connect. Physics has always intrigued me since I was little. I was always curious to learn how things work and even as my understanding in Physics got better in high school, my curiosity to learn about the laws of nature and understand what governs day to day phenomena did not decrease.\\
+
+In my free time, I enjoy listening to podcasts by Physicists and watch youtube videos to increase my understanding in different topics. A topic that really excites me these days is Astrophysics. With the advent of technology and the efforts to commercialize space travel, I am excited to see how much we can discover about space and the planets around us. I think learning Physics can really open up the perspectives of people if they care to dig deep and develop a clear understanding of how things around us really work. It can help debunk superstitious claims that do not follow any logic. Personally, I have benefited a lot from that subject, since it has helped me develop strong problem solving and logical thinking skills that I have been able to exploit in different fields.
+
+
+
+\end{document}
